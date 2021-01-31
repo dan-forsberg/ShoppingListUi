@@ -1,11 +1,17 @@
+import type ShoppingList from "../models/ShoppingList";
+
 const PORT = 8080;
 const URL = `http://wsl:${PORT}/api/`;
 const headers =  { 'Content-Type': 'application/json'};
 
 const getLists = async () => {
-    let lists = await get('get/lists');
-    console.log(lists);
-    return;
+    const lists = await get('get/lists');
+    return lists;
+}
+
+const createList = async (shoppingList: ShoppingList) => {
+    const result = await post('create/list', shoppingList);        
+    return result;
 }
 
 /* HTTP request helpers */
@@ -46,4 +52,4 @@ const patch = async (endPoint: string, body: any) => {
     return await httpReq(endPoint, "PATCH", body);    
 }
 
-export default { getLists };
+export default { getLists, createList };

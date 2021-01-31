@@ -1,13 +1,8 @@
 <script lang="ts">
-	export let name: string;
-    //import getLists from './data/api';
-    //getLists.getLists();
+import ShoppingList from "./ShoppingList.svelte";
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+<ShoppingList />
 
 <style>
 	main {
