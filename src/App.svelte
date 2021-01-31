@@ -1,5 +1,7 @@
 <script lang="ts">
 	export let name: string;
+    //import getLists from './data/api';
+    //getLists.getLists();
 </script>
 
 <main>
