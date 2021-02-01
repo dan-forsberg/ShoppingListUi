@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ListItem from "./ListItem.svelte";
+    import ListItem from "./ListItemComponent.svelte";
     import type ShoppingList from "./models/ShoppingList";
 
     export let list: ShoppingList;

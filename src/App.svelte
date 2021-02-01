@@ -1,10 +1,12 @@
 <script lang="ts">
     import ShoppingList from "./ShoppingList.svelte";
     import Api from "./data/api";
+import CreateList from "./CreateList.svelte";
 
     let shoppingLists = Api.getLists();
 
 </script>
+<CreateList />
 
 {#await shoppingLists}
     <p>Hämtar handlingslistor...</p>

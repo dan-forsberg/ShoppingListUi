@@ -14,7 +14,7 @@ const getLists = async ():Promise<GetListsResponse> => {
     return lists;
 }
 
-const createList = async (shoppingList: ShoppingList) => {
+const createList = async (shoppingList: ShoppingList):Promise<ShoppingList> => {
     const result = await post('create/list', shoppingList);        
     return result;
 }

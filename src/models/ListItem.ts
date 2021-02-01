@@ -2,7 +2,7 @@ type ListItem = {
     item: string;
     amount?: number;
     cost?: number;
-    _id: string;
+    _id?: string;
 }
 
 export default ListItem;
