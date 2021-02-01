@@ -4,7 +4,12 @@ const PORT = 8080;
 const URL = `http://wsl:${PORT}/api/`;
 const headers =  { 'Content-Type': 'application/json'};
 
-const getLists = async () => {
+
+type GetListsResponse = {
+    lists: ShoppingList[];
+    count: number;
+};
+const getLists = async ():Promise<GetListsResponse> => {
     const lists = await get('get/lists');
     return lists;
 }

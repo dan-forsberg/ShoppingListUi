@@ -1,27 +1,20 @@
 <script lang="ts">
-import ShoppingList from "./ShoppingList.svelte";
+    import ShoppingList from "./ShoppingList.svelte";
+    import Api from "./data/api";
+
+    let shoppingLists = Api.getLists();
+
 </script>
 
-<ShoppingList />
+{#await shoppingLists}
+    <p>Hämtar handlingslistor...</p>
+{:then lists}
+    {#each lists.lists as list (list._id)}
+        <ShoppingList list={list} />
+    {/each}
+{:catch error}
+    <p>:( {error.message}</p>
+{/await}
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>

@@ -1,5 +1,13 @@
 <script lang="ts">
-    let item;
+    import type ListItem from "./models/ListItem";
+
+    export let item: ListItem;
 </script>
 
-Show item
+{item.item} 
+{#if item.amount}
+    {item.amount}
+{/if}
+{#if item.cost}
+    {item.cost}
+{/if}
