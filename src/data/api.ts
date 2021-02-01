@@ -2,20 +2,20 @@ import type ShoppingList from "../models/ShoppingList";
 
 const PORT = 8080;
 const URL = `http://wsl:${PORT}/api/`;
-const headers =  { 'Content-Type': 'application/json'};
+const headers = { 'Content-Type': 'application/json' };
 
 
 type GetListsResponse = {
     lists: ShoppingList[];
     count: number;
 };
-const getLists = async ():Promise<GetListsResponse> => {
+const getLists = async (): Promise<GetListsResponse> => {
     const lists = await get('get/lists');
     return lists;
 }
 
-const createList = async (shoppingList: ShoppingList):Promise<ShoppingList> => {
-    const result = await post('create/list', shoppingList);        
+const createList = async (shoppingList: ShoppingList): Promise<ShoppingList> => {
+    const result = await post('create/list', shoppingList);
     return result;
 }
 
@@ -46,15 +46,15 @@ const post = async (endPoint: string, body: any): Promise<any> => {
 
 /* delete is a reserved keyword */
 const del = async (endPoint: string, body: any) => {
-    return await httpReq(endPoint, "DELETE", body);    
+    return await httpReq(endPoint, "DELETE", body);
 }
 
 const put = async (endPoint: string, body: any) => {
-    return await httpReq(endPoint, "PUT", body);    
+    return await httpReq(endPoint, "PUT", body);
 }
 
 const patch = async (endPoint: string, body: any) => {
-    return await httpReq(endPoint, "PATCH", body);    
+    return await httpReq(endPoint, "PATCH", body);
 }
 
 export default { getLists, createList };

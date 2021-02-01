@@ -4,7 +4,7 @@
     export let item: ListItem;
 </script>
 
-{item.item} 
+{item.item}
 {#if item.amount}
     {item.amount}
 {/if}
