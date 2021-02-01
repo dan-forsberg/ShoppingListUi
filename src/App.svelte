@@ -1,7 +1,7 @@
 <script lang="ts">
-    import ShoppingList from "./ShoppingListComponent.svelte";
     import Api from "./data/api";
     import CreateList from "./CreateListComponent.svelte";
+    import ShoppingListComponent from "./ShoppingListComponent.svelte";
 
     let shoppingLists = Api.getLists();
 </script>
@@ -12,7 +12,7 @@
     <p>Hämtar handlingslistor...</p>
 {:then lists}
     {#each lists.lists as list (list._id)}
-        <ShoppingList {list} />
+        <ShoppingListComponent {list} />
     {/each}
 {:catch error}
     <p>:( {error.message}</p>
