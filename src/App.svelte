@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ShoppingList from "./ShoppingList.svelte";
+    import ShoppingList from "./ShoppingListComponent.svelte";
     import Api from "./data/api";
     import CreateList from "./CreateListComponent.svelte";
 
