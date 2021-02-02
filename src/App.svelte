@@ -1,7 +1,7 @@
 <script lang="ts">
     import Api from "./data/api";
-    import CreateList from "./CreateListComponent.svelte";
-    import ShoppingListComponent from "./ShoppingListComponent.svelte";
+    import CreateList from "./CreateList.svelte";
+    import ShoppingListComponent from "./ShoppingList.svelte";
     import { listStore } from "./data/stores/listStore";
 
     let shoppingLists = Api.getLists();
