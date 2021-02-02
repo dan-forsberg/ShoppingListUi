@@ -15,14 +15,34 @@
             listStore.set($listStore);
         }
     };
+
+    const delete_emoji = '🗑️';
 </script>
 
 <div in:fade out:fade>
+    <h3>
+        {list.name.toUpperCase()}
+        <button on:click={deleteList}>{delete_emoji}</button>
+    </h3>
     <ul>
-        <h3>{list.name}</h3>
-        <button on:click={deleteList}>Delete</button>
         {#each list.items as item (item._id)}
-            <li><ListItem {item} /></li>
+            <li in:fade out:fade>
+                <ListItem {item} />
+            </li>
         {/each}
     </ul>
 </div>
+
+<style>
+    div {
+        width: 300px;
+    }
+    button {
+        border: none;
+        background-color: white;
+        float: right;
+    }
+    ul {
+        list-style-type: none;
+    }
+</style>
