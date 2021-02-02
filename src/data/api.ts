@@ -11,11 +11,19 @@ type GetListsResponse = {
 };
 const getLists = async (): Promise<GetListsResponse> => {
     const lists = await get('get/lists');
+    if (lists.message !== undefined) {
+        throw new Error(lists.message);
+    }
+
     return lists;
 }
 
 const createList = async (shoppingList: ShoppingList): Promise<ShoppingList> => {
     const result = await post('create/list', shoppingList);
+    if (result.message !== undefined) {
+        throw new Error(result.message);
+    }
+
     return result;
 }
 
