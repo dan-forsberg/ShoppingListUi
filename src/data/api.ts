@@ -31,8 +31,18 @@ const createList = async (shoppingList: ShoppingList): Promise<CreateListResult>
     return result;
 }
 
+type DeleteListResult = {
+    message: string;
+}
+
+const deleteList = async (shoppingList: ShoppingList): Promise<DeleteListResult> => {
+    const result = await del(`delete/list/${shoppingList._id}`);
+    return result;
+}
+
 /* HTTP request helpers */
 
+// TODO, check HTTP-code
 const httpReq = async (endPoint: string, method: string, body?: any): Promise<any> => {
     let opts = {
         method: method,
@@ -57,8 +67,8 @@ const post = async (endPoint: string, body: any): Promise<any> => {
 }
 
 /* delete is a reserved keyword */
-const del = async (endPoint: string, body: any) => {
-    return await httpReq(endPoint, "DELETE", body);
+const del = async (endPoint: string) => {   
+    return await httpReq(endPoint, "DELETE");
 }
 
 const put = async (endPoint: string, body: any) => {
@@ -69,4 +79,4 @@ const patch = async (endPoint: string, body: any) => {
     return await httpReq(endPoint, "PATCH", body);
 }
 
-export default { getLists, createList };
+export default { getLists, createList, deleteList };
