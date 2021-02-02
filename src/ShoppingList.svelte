@@ -3,6 +3,7 @@
     import type ShoppingList from "./models/ShoppingList";
     import Api from "./data/api";
     import { listStore } from "./data/stores/listStore";
+    import { fade } from "svelte/transition";
 
     export let list: ShoppingList;
 
@@ -16,7 +17,7 @@
     };
 </script>
 
-<div>
+<div in:fade out:fade>
     <ul>
         <h3>{list.name}</h3>
         <button on:click={deleteList}>Delete</button>
