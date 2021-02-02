@@ -67,7 +67,7 @@ const post = async (endPoint: string, body: any): Promise<any> => {
 }
 
 /* delete is a reserved keyword */
-const del = async (endPoint: string) => {   
+const del = async (endPoint: string) => {
     return await httpReq(endPoint, "DELETE");
 }
 

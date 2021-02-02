@@ -1,19 +1,19 @@
 <script lang="ts">
     import ListItem from "./ListItem.svelte";
     import type ShoppingList from "./models/ShoppingList";
-    import Api from './data/api';
+    import Api from "./data/api";
     import { listStore } from "./data/stores/listStore";
 
     export let list: ShoppingList;
-    
-    const deleteList = async() => {
+
+    const deleteList = async () => {
         const result = await Api.deleteList(list);
         if (result.message === "List deleted.") {
             let index = $listStore.indexOf(list);
             $listStore.splice(index, 1);
             listStore.set($listStore);
         }
-    }    
+    };
 </script>
 
 <div>
