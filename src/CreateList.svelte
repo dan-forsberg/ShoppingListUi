@@ -3,7 +3,7 @@
     import Api from "./data/api";
     import type ShoppingList from "./models/ShoppingList";
     import { listItemStore } from "./data/stores/listItemStore";
-    import { listStore } from "./data/stores/listStore";
+    import { ListStore } from "./data/stores/listStore";
 
     let name: string;
     async function handleOnSubmit() {
@@ -18,8 +18,8 @@
                 throw new Error("Could not create list: " + createdList.message);
             }
 
-            let listLen = $listStore.length;
-            $listStore[listLen] = createdList.list;
+            let listLen = $ListStore.length;
+            $ListStore[listLen] = createdList.list;
             // show a toast or something?
         } catch (ex) {
             // show a toast or something

@@ -1,27 +1,33 @@
 <script lang="ts">
-    import ListItem from "./ListItem.svelte";
-    import type ShoppingList from "./models/ShoppingList";
     import Api from "./data/api";
-    import { listStore } from "./data/stores/listStore";
+    import ListItem from "./ListItem.svelte";
     import { fade } from "svelte/transition";
+    import { ListStore } from "./data/stores/listStore";
+    import type ShoppingList from "./models/ShoppingList";
 
     export let list: ShoppingList;
 
     const deleteList = async () => {
         const result = await Api.deleteList(list);
         if (result.message === "List deleted.") {
-            let index = $listStore.indexOf(list);
-            $listStore.splice(index, 1);
-            listStore.set($listStore);
+            let index = $ListStore.indexOf(list);
+            $ListStore.splice(index, 1);
+            ListStore.set($ListStore);
         }
     };
 
-    const delete_emoji = '🗑️';
+    const editList = async () => {
+
+    }
+
+    const delete_emoji = "🗑️";
+    const pencil_emoji = "✏️";
 </script>
 
 <div in:fade out:fade>
     <h3>
         {list.name.toUpperCase()}
+        <button on:click={editList}>{pencil_emoji}</button>
         <button on:click={deleteList}>{delete_emoji}</button>
     </h3>
     <ul>
@@ -35,7 +41,7 @@
 
 <style>
     div {
-        width: 300px;
+        width: 280px;
     }
     button {
         border: none;

@@ -1,25 +1,12 @@
 <script lang="ts">
-    import Api from "./data/api";
     import ShoppingListComponent from "./ShoppingList.svelte";
-    import { listStore } from "./data/stores/listStore";
-
-    let shoppingLists = Api.getLists();
-    let finishedFetching: boolean | undefined = undefined;
-    shoppingLists
-        .then((response) => {
-            listStore.set(response.lists);
-            finishedFetching = true;
-        })
-        .catch((err) => {
-            console.error(err);
-            finishedFetching = false;
-        });
+    import {ListStore, ListStoreState} from "./data/stores/listStore";
 </script>
 
-{#if finishedFetching === undefined}
+{#if $ListStoreState === "UNFETCHED"}
     <p>Hämtar handlingslistor...</p>
-{:else if finishedFetching === true}
-    {#each $listStore as list (list._id)}
+{:else if $ListStoreState === "FETCHED"}
+    {#each $ListStore as list (list._id)}
         <ShoppingListComponent {list} />
     {/each}
 {:else}
