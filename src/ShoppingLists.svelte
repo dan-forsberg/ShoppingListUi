@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ShoppingListComponent from "./ShoppingList.svelte";
+    import ShoppingList from "./ShoppingList.svelte";
     import {ListStore, ListStoreState} from "./data/stores/listStore";
 </script>
 
@@ -7,7 +7,7 @@
     <p>Hämtar handlingslistor...</p>
 {:else if $ListStoreState === "FETCHED"}
     {#each $ListStore as list (list._id)}
-        <ShoppingListComponent {list} />
+        <ShoppingList {list} />
     {/each}
 {:else}
     <p>Hoppsan, något har visst gått jättefel.</p>
