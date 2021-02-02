@@ -2,21 +2,35 @@
     import Api from "./data/api";
     import CreateList from "./CreateListComponent.svelte";
     import ShoppingListComponent from "./ShoppingListComponent.svelte";
+    import {listStore} from "./data/stores/listStore";
 
     let shoppingLists = Api.getLists();
+    let finishedFetching;
+    shoppingLists.then((response) => {
+        listStore.set(response.lists);
+        finishedFetching = true;
+    }).catch(err => {
+        console.error(err);
+        finishedFetching = false;
+    });
+
+    $: {
+        // todo, fix the "each can only iterate over array-like object" even though $listStore is an array
+        console.log($listStore);
+    }
 </script>
 
 <CreateList />
 
-{#await shoppingLists}
+{#if finishedFetching === undefined}
     <p>Hämtar handlingslistor...</p>
-{:then lists}
-    {#each lists.lists as list (list._id)}
+{:else if finishedFetching === true}
+    {#each $listStore as list}
         <ShoppingListComponent {list} />
     {/each}
-{:catch error}
-    <p>:( {error.message}</p>
-{/await}
+{:else}
+    <p>Hoppsan, något har visst gått jättefel.</p>
+{/if}
 
 <style>
 </style>
