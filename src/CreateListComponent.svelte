@@ -1,22 +1,25 @@
 <script lang="ts">
-    import { writable } from "svelte/store";
     import AddItem from "./AddItem.svelte";
     import Api from "./data/api";
-    import type ListItem from "./models/ListItem";
+    import {listItemStore} from "./data/stores/listItemStore";
     import type ShoppingList from "./models/ShoppingList";
 
-    let name: string;
-    let listItemStore = writable<ListItem[]>([
-        { item: null, amount: null, cost: null },
-    ]);
-
+    let name;
     async function handleOnSubmit() {
         let shoppingList: ShoppingList = {
             name: name,
             items: $listItemStore,
         };
 
-        console.log(await Api.createList(shoppingList));
+        console.log(shoppingList);
+        
+        try {
+            let createdList = await Api.createList(shoppingList);
+            // show a toast or something?
+        } catch (ex) {
+            // show a toast or something
+            console.error(ex);
+        }
     }
 
     function addItemComponent() {
