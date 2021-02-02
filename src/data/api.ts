@@ -18,12 +18,16 @@ const getLists = async (): Promise<GetListsResponse> => {
     return lists;
 }
 
-const createList = async (shoppingList: ShoppingList): Promise<ShoppingList> => {
+type CreateListResult = {
+    list?: ShoppingList;
+    message?: string;
+}
+
+const createList = async (shoppingList: ShoppingList): Promise<CreateListResult> => {
     const result = await post('create/list', shoppingList);
     if (result.message !== undefined) {
         throw new Error(result.message);
     }
-
     return result;
 }
 

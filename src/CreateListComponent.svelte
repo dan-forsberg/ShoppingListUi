@@ -14,8 +14,12 @@
 
         try {
             let createdList = await Api.createList(shoppingList);
+            if (createdList.message) {
+                throw new Error("Could not create list: " + createdList.message);
+            }
+
             let listLen = $listStore.length;
-            $listStore[listLen] = createdList;
+            $listStore[listLen] = createdList.list;
             // show a toast or something?
         } catch (ex) {
             // show a toast or something
