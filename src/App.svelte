@@ -15,11 +15,6 @@
             console.error(err);
             finishedFetching = false;
         });
-
-    $: {
-        // todo, fix the "each can only iterate over array-like object" even though $listStore is an array
-        console.log($listStore);
-    }
 </script>
 
 <CreateList />
