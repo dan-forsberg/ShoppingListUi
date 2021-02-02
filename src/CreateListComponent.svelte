@@ -1,20 +1,21 @@
 <script lang="ts">
     import AddItem from "./AddItem.svelte";
     import Api from "./data/api";
-    import {listItemStore} from "./data/stores/listItemStore";
     import type ShoppingList from "./models/ShoppingList";
+    import { listItemStore } from "./data/stores/listItemStore";
+    import { listStore } from "./data/stores/listStore";
 
-    let name;
+    let name: string;
     async function handleOnSubmit() {
-        let shoppingList: ShoppingList = {
+        let shoppingList:ShoppingList = {
             name: name,
-            items: $listItemStore,
+            items: $listItemStore
         };
 
-        console.log(shoppingList);
-        
         try {
             let createdList = await Api.createList(shoppingList);
+            let listLen = $listStore.length;
+            $listStore[listLen] = createdList;
             // show a toast or something?
         } catch (ex) {
             // show a toast or something
@@ -33,7 +34,6 @@
     {#each $listItemStore as _, index}
         <AddItem bind:listItem={$listItemStore[index]} />
     {/each}
-    <input type="submit" />
+    <button type="button" on:click={addItemComponent}>Lägg till fält!</button>
+    <button type="submit">Skicka lista!</button>
 </form>
-
-<button on:click={addItemComponent} />
