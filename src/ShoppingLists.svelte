@@ -19,7 +19,7 @@
 {#if finishedFetching === undefined}
     <p>Hämtar handlingslistor...</p>
 {:else if finishedFetching === true}
-    {#each $listStore as list}
+    {#each $listStore as list (list._id)}
         <ShoppingListComponent {list} />
     {/each}
 {:else}
