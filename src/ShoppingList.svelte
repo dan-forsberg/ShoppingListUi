@@ -1,8 +1,9 @@
 <script lang="ts">
     import Api from "./data/api";
-    import ListItem from "./ListItem.svelte";
+    import type ListItem from "./models/ListItem";
     import { ListStore } from "./data/stores/listStore";
     import type ShoppingList from "./models/ShoppingList";
+    import ListItemComponent from "./ListItem.svelte";
 
     export let list: ShoppingList;
     export let collapsed: boolean = false;
@@ -17,6 +18,11 @@
     };
 
     const editList = async () => {};
+
+    const removeItem = async (listItem: ListItem) => {
+        const result = await Api.deleteItem(list, listItem);
+        console.log(result);
+    }
 
     const delete_emoji = "🗑️";
     const pencil_emoji = "✏️";
@@ -34,13 +40,13 @@
     <ul>
         {#if collapsed && list.items.length > 2}
             <div class="fader">
-                <li><ListItem item={list.items[0]} /></li>
-                <li><ListItem item={list.items[1]} /></li>
+                <li><ListItemComponent item={list.items[0]} removeItem={removeItem} /></li>
+                <li><ListItemComponent item={list.items[1]} removeItem={removeItem}/></li>
             </div>
         {:else}
             {#each list.items as item (item._id)}
                 <li>
-                    <ListItem {item} />
+                    <ListItemComponent {item} removeItem={removeItem} />
                 </li>
             {/each}
         {/if}

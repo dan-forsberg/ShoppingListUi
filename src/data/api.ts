@@ -1,3 +1,4 @@
+import type ListItem from "../models/ListItem";
 import type ShoppingList from "../models/ShoppingList";
 
 const PORT = 8080;
@@ -42,6 +43,18 @@ const deleteList = async (shoppingList: ShoppingList): Promise<DeleteListResult>
     return result.json();
 }
 
+const deleteItem = async (shoppingList: ShoppingList, listItem: ListItem) => {
+    const listID = shoppingList._id;
+    const itemID = listItem._id;
+    
+    const result = await remove(`update/list/${listID}/deleteItem/${itemID}`);
+    if (result.status !== 200) {
+        throw new Error(result.json().message);
+    }
+
+    return result.json();
+}
+
 /* HTTP request helpers */
 const httpReq = async (endPoint: string, method: string, body?: any): Promise<any> => {
     let opts = {
@@ -78,4 +91,4 @@ const patch = async (endPoint: string, body: any) => {
     return await httpReq(endPoint, "PATCH", body);
 }
 
-export default { getLists, createList, deleteList };
+export default { getLists, createList, deleteList, deleteItem };
