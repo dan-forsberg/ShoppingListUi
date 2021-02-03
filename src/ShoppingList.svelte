@@ -1,11 +1,11 @@
 <script lang="ts">
     import Api from "./data/api";
     import ListItem from "./ListItem.svelte";
-    import { fade } from "svelte/transition";
     import { ListStore } from "./data/stores/listStore";
     import type ShoppingList from "./models/ShoppingList";
 
     export let list: ShoppingList;
+    export let collapsed: boolean = false;
 
     const deleteList = async () => {
         const result = await Api.deleteList(list);
@@ -16,39 +16,53 @@
         }
     };
 
-    const editList = async () => {
-
-    }
+    const editList = async () => {};
 
     const delete_emoji = "🗑️";
     const pencil_emoji = "✏️";
 </script>
 
-<div in:fade out:fade>
+<div class="lists-container">
     <h3>
         {list.name.toUpperCase()}
-        <button on:click={editList}>{pencil_emoji}</button>
-        <button on:click={deleteList}>{delete_emoji}</button>
+        <!-- if only this list is show, show the delete and edit button -->
+        {#if !collapsed}
+            <button on:click={editList}>{pencil_emoji}</button>
+            <button on:click={deleteList}>{delete_emoji}</button>
+        {/if}
     </h3>
     <ul>
-        {#each list.items as item (item._id)}
-            <li in:fade out:fade>
-                <ListItem {item} />
-            </li>
-        {/each}
+        {#if collapsed && list.items.length > 2}
+            <div class="fader">
+                <li><ListItem item={list.items[0]} /></li>
+                <li><ListItem item={list.items[1]} /></li>
+            </div>
+        {:else}
+            {#each list.items as item (item._id)}
+                <li>
+                    <ListItem {item} />
+                </li>
+            {/each}
+        {/if}
     </ul>
 </div>
 
 <style>
-    div {
+    .lists-container {
         width: 280px;
     }
+
     button {
         border: none;
         background-color: white;
         float: right;
     }
+
     ul {
         list-style-type: none;
+    }
+
+    .fader {
+        mask-image: linear-gradient(to bottom, white 25%, transparent 100%);
     }
 </style>

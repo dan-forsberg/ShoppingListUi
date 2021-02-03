@@ -4,45 +4,45 @@ const PORT = 8080;
 const URL = `http://wsl:${PORT}/api/`;
 const headers = { 'Content-Type': 'application/json' };
 
-
 type GetListsResponse = {
     lists: ShoppingList[];
     count: number;
 };
 const getLists = async (): Promise<GetListsResponse> => {
-    const lists = await get('get/lists');
-    if (lists.message !== undefined) {
-        throw new Error(lists.message);
+    const result = await get('get/lists');
+    if (result.status !== 200) {
+        throw new Error(result.json().message);
     }
 
-    return lists;
+    return result.json();
 }
 
 type CreateListResult = {
     list?: ShoppingList;
     message?: string;
 }
-
 const createList = async (shoppingList: ShoppingList): Promise<CreateListResult> => {
     const result = await post('create/list', shoppingList);
-    if (result.message !== undefined) {
-        throw new Error(result.message);
+    if (result.status !== 201) {
+        throw new Error(result.json().message);
     }
-    return result;
+
+    return result.json();
 }
 
 type DeleteListResult = {
     message: string;
 }
-
 const deleteList = async (shoppingList: ShoppingList): Promise<DeleteListResult> => {
-    const result = await del(`delete/list/${shoppingList._id}`);
-    return result;
+    const result = await remove(`delete/list/${shoppingList._id}`);
+    if (result.status !== 200) {
+        throw new Error(result.json().message);
+    }
+    
+    return result.json();
 }
 
 /* HTTP request helpers */
-
-// TODO, check HTTP-code
 const httpReq = async (endPoint: string, method: string, body?: any): Promise<any> => {
     let opts = {
         method: method,
@@ -50,12 +50,11 @@ const httpReq = async (endPoint: string, method: string, body?: any): Promise<an
     };
 
     if (body) {
-        //@ts-ignore
         opts["body"] = JSON.stringify(body);
     }
     let results = await fetch(URL + endPoint, opts);
 
-    return results.json();
+    return results;
 }
 
 const get = async (endPoint: string) => {
@@ -67,7 +66,7 @@ const post = async (endPoint: string, body: any): Promise<any> => {
 }
 
 /* delete is a reserved keyword */
-const del = async (endPoint: string) => {
+const remove = async (endPoint: string) => {
     return await httpReq(endPoint, "DELETE");
 }
 

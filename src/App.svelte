@@ -27,6 +27,7 @@
     <div transition:slide class="modal">
         <div class="modal-content">
             <CreateList />
+            <span class="close" on:click={toggleCreateList}>X</span>
         </div>
     </div>
 {/if}
@@ -35,19 +36,12 @@
 <style>
     .modal {
         display: block;
-        background-color: #010101;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; /* Could be more or less, depending on screen size */
+        margin: 0 auto; /* 15% from the top and centered */
+        width: 50%; /* Could be more or less, depending on screen size */
     }
 
     .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; /* Could be more or less, depending on screen size */
+        margin: 0% auto;
     }
 
     /* The Close Button */
