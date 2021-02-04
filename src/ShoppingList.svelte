@@ -19,11 +19,11 @@
     const itemRemoved = (item: ListItem) => {
         let index = list.items.indexOf(item);
         list.items.splice(index, 1);
-        console.log('Spliced');
+        list = list;
     };
 
     const delete_emoji = '🗑️';
-    const pencil_emoji = '✏️';
+    // const pencil_emoji = '✏️';
 </script>
 
 <div class="lists-container">
