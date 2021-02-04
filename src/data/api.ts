@@ -39,15 +39,27 @@ const deleteList = async (shoppingList: ShoppingList): Promise<DeleteListResult>
     if (result.status !== 200) {
         throw new Error(result.json().message);
     }
-    
+
     return result.json();
 }
 
 const deleteItem = async (shoppingList: ShoppingList, listItem: ListItem) => {
     const listID = shoppingList._id;
     const itemID = listItem._id;
-    
+
     const result = await remove(`update/list/${listID}/deleteItem/${itemID}`);
+    if (result.status !== 200) {
+        throw new Error(result.json().message);
+    }
+
+    return result.json();
+}
+
+const toggleItemBought = async (shoppingList: ShoppingList, listItem: ListItem) => {
+    const listID = shoppingList._id;
+    const itemID = listItem._id;
+
+    const result = await patch(`update/list/${listID}/toggleBought/${itemID}`);
     if (result.status !== 200) {
         throw new Error(result.json().message);
     }
@@ -87,8 +99,8 @@ const put = async (endPoint: string, body: any) => {
     return await httpReq(endPoint, "PUT", body);
 }
 
-const patch = async (endPoint: string, body: any) => {
-    return await httpReq(endPoint, "PATCH", body);
+const patch = async (endPoint: string) => {
+    return await httpReq(endPoint, "PATCH");
 }
 
-export default { getLists, createList, deleteList, deleteItem };
+export default { getLists, createList, deleteList, deleteItem, toggleItemBought };

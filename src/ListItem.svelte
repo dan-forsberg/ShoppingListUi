@@ -1,21 +1,39 @@
 <script lang="ts">
     import type ListItem from './models/ListItem';
+    import type ShoppingList from './models/ShoppingList';
     import Api from './data/api';
 
     export let item: ListItem;
-    export let removeItem: (item: ListItem) => any;
+    export let list: ShoppingList;
+    export let itemRemoved: (item: ListItem) => any;
 
-    let itemBought = item.bought;
-
-    async function toggleItemAsBought() {
-        itemBought = !itemBought;
+    async function removeItem() {
+        try {
+            let result = await Api.deleteItem(list, item);
+            console.log(result);
+            itemRemoved(item);
+        } catch (ex) {
+            console.error('Could not delete item');
+            console.error(ex);
+        }
     }
 
-    console.log(item);
+    async function toggleBought() {
+        try {
+            // results are boring
+            await Api.toggleItemBought(list, item);
+            // show a toast?
+        } catch (ex) {
+            console.error('Could not toggle itemBought');
+            console.error(ex);
+        }
+    }
+
+    let itemBought = item.bought;
 </script>
 
 <div class="list-item {itemBought ? 'strikethrough' : ''}">
-    <input autocomplete="off" type="checkbox" bind:checked={itemBought} />
+    <input autocomplete="off" type="checkbox" bind:checked={itemBought} on:change={toggleBought} />
 
     <span>
         {#if item.amount}
@@ -27,7 +45,7 @@
         {/if}
     </span>
 
-    <button on:click={() => removeItem(item)}>X</button>
+    <button on:click={removeItem}>X</button>
 </div>
 
 <style>
