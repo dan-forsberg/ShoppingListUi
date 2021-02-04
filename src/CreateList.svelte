@@ -1,21 +1,21 @@
 <script lang="ts">
-    import AddItem from "./AddItem.svelte";
-    import Api from "./data/api";
-    import type ShoppingList from "./models/ShoppingList";
-    import { listItemStore } from "./data/stores/listItemStore";
-    import { ListStore } from "./data/stores/listStore";
+    import AddItem from './AddItem.svelte';
+    import Api from './data/api';
+    import type ShoppingList from './models/ShoppingList';
+    import { listItemStore } from './data/stores/listItemStore';
+    import { ListStore } from './data/stores/listStore';
 
     let name: string;
     async function handleOnSubmit() {
-        let shoppingList:ShoppingList = {
+        let shoppingList: ShoppingList = {
             name: name,
-            items: $listItemStore
+            items: $listItemStore,
         };
 
         try {
             let createdList = await Api.createList(shoppingList);
             if (createdList.message) {
-                throw new Error("Could not create list: " + createdList.message);
+                throw new Error('Could not create list: ' + createdList.message);
             }
 
             let listLen = $ListStore.length;
@@ -29,7 +29,7 @@
 
     function addItemComponent() {
         let len = $listItemStore.length;
-        $listItemStore[len] = { item: null, amount: null, cost: null };
+        $listItemStore[len] = { item: null, amount: null, price: null, bought: false };
     }
 </script>
 
