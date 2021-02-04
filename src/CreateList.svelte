@@ -2,14 +2,15 @@
     import AddItem from './AddItem.svelte';
     import Api from './data/api';
     import type ShoppingList from './models/ShoppingList';
-    import { listItemStore } from './data/stores/listItemStore';
+    import type ListItem from './models/ListItem';
     import { ListStore } from './data/stores/listStore';
 
+    let listItems: Array<ListItem> = [{ item: null, price: null, bought: false }];
     let name: string;
     async function handleOnSubmit() {
         let shoppingList: ShoppingList = {
             name: name,
-            items: $listItemStore,
+            items: listItems,
         };
 
         try {
@@ -28,15 +29,16 @@
     }
 
     function addItemComponent() {
-        let len = $listItemStore.length;
-        $listItemStore[len] = { item: null, amount: null, price: null, bought: false };
+        let len = listItems.length;
+        listItems[len] = { item: null, price: null, bought: false };
+        console.log(listItems);
     }
 </script>
 
 <form on:submit|preventDefault={handleOnSubmit}>
     <input placeholder="Inköpslista" type="text" bind:value={name} />
-    {#each $listItemStore as _, index}
-        <AddItem bind:listItem={$listItemStore[index]} />
+    {#each listItems as _, index}
+        <AddItem bind:listItem={listItems[index]} />
     {/each}
     <button type="button" on:click={addItemComponent}>Lägg till fält!</button>
     <button type="submit">Skicka lista!</button>
