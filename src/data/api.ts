@@ -67,6 +67,18 @@ const toggleItemBought = async (shoppingList: ShoppingList, listItem: ListItem) 
     return result.json();
 }
 
+const addItemToList = async (shoppingList: ShoppingList, listItem: ListItem) => {
+    const listID = shoppingList._id;
+    const body = { items: listItem };
+    const result = await put(`update/list/${listID}/addItem`, body);
+
+    if (result.status !== 200) {
+        throw new Error(result.json().message);
+    }
+
+    return result.json();
+}
+
 /* HTTP request helpers */
 const httpReq = async (endPoint: string, method: string, body?: any): Promise<any> => {
     let opts = {
@@ -103,4 +115,4 @@ const patch = async (endPoint: string) => {
     return await httpReq(endPoint, "PATCH");
 }
 
-export default { getLists, createList, deleteList, deleteItem, toggleItemBought };
+export default { getLists, createList, deleteList, deleteItem, toggleItemBought, addItemToList };

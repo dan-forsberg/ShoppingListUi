@@ -1,9 +1,13 @@
 <script lang="ts">
     import Api from './data/api';
     import type ListItem from './models/ListItem';
+    import ListItemComponent from './ListItem.svelte';
     import { ListStore } from './data/stores/listStore';
     import type ShoppingList from './models/ShoppingList';
-    import ListItemComponent from './ListItem.svelte';
+    import AddItem from './AddItem.svelte';
+
+    let addItem = false;
+    let newItem: ListItem;
 
     export let list: ShoppingList;
 
@@ -17,24 +21,47 @@
     };
 
     const itemRemoved = (item: ListItem) => {
-        let index = list.items.indexOf(item);
+        const index = list.items.indexOf(item);
         list.items.splice(index, 1);
+        // force Svelte to update
         list = list;
     };
 
+    const addItemToList = async () => {
+        try {
+            console.log(newItem);
+            const result = await Api.addItemToList(list, newItem);
+            console.log(result);
+        } catch (ex) {
+            console.error(ex);
+        }
+    };
+
     const delete_emoji = '🗑️';
-    // const pencil_emoji = '✏️';
 </script>
 
 <div class="lists-container">
     <h3>
         {list.name.toUpperCase()}
-        <!-- <button on:click={editList}>{pencil_emoji}</button> -->
-        <button on:click={deleteList}>{delete_emoji}</button>
+        <button class="delete-list" on:click={deleteList}>{delete_emoji}</button>
     </h3>
     {#each list.items as item (item._id)}
         <ListItemComponent {item} {list} {itemRemoved} />
     {/each}
+
+    {#if !addItem}
+        <div class="add-item">
+            <button
+                on:click={() => {
+                    addItem = !addItem;
+                }}>Lägg till</button
+            >
+        </div>
+    {:else}
+        <AddItem listItem={newItem} />
+        <button>+</button>
+        <button on:click={addItemToList}>Spara</button>
+    {/if}
 </div>
 
 <style>
@@ -45,6 +72,13 @@
     button {
         border: none;
         background-color: white;
+    }
+
+    .delete-list {
         float: right;
+    }
+
+    .add-item {
+        display: block;
     }
 </style>
