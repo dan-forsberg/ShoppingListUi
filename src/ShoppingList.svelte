@@ -6,7 +6,6 @@
     import ListItemComponent from "./ListItem.svelte";
 
     export let list: ShoppingList;
-    export let collapsed: boolean = false;
 
     const deleteList = async () => {
         const result = await Api.deleteList(list);
@@ -35,7 +34,7 @@
         <button on:click={deleteList}>{delete_emoji}</button>
     </h3>
     {#each list.items as item (item._id)}
-        <ListItemComponent {item} {removeItem} />
+        <ListItemComponent {item} removeItem={removeItem} />
     {/each}
 </div>
 
