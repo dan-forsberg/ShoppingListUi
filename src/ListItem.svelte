@@ -1,44 +1,47 @@
 <script lang="ts">
-    import type ListItem from "./models/ListItem";
+    import type ListItem from './models/ListItem';
+    import Api from './data/api';
+
     export let item: ListItem;
     export let removeItem: (item: ListItem) => any;
+
+    let itemBought = item.bought;
+
+    async function toggleItemAsBought() {
+        itemBought = !itemBought;
+    }
+
+    console.log(item);
 </script>
 
-<div class="list-item">
-    <b>{item.item}</b>
-    <div class="list-item-right">
+<div class="list-item {itemBought ? 'strikethrough' : ''}">
+    <input autocomplete="off" type="checkbox" bind:checked={itemBought} />
+
+    <span>
         {#if item.amount}
-            <span class="amount">{item.amount}</span>
+            <span class="amount">{item.amount}st</span>
         {/if}
-        {#if item.cost}
-            <span class="cost">{item.cost}</span>
+        {item.item}
+        {#if item.price}
+            <span class="price">för {item.price} kr</span>
         {/if}
-        <button on:click={() => removeItem(item)}>X</button>
-    </div>
+    </span>
+
+    <button on:click={() => removeItem(item)}>X</button>
 </div>
 
 <style>
+    .strikethrough span {
+        text-decoration: line-through;
+        color: #888;
+    }
+
     .list-item {
         display: block;
         width: 100%;
     }
 
-    .list-item * {
-        display:inline-block;
-    }
-
-    b {
-        margin-left: 0;
-        margin-right: auto;
-    }
-    
-    .list-item-right {
-        margin-right: 0;
-        margin-left: auto;
-    }
-
     button {
-        order: 4;
         border: none;
         background-color: white;
         height: 10px;
