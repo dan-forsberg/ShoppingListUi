@@ -1,13 +1,13 @@
 <script lang="ts">
-    import ShoppingList from "./ShoppingList.svelte";
-    import { ListStore, ListStoreState } from "./data/stores/listStore";
+    import ShoppingList from './ShoppingList.svelte';
+    import { ListStore, ListStoreState } from './data/stores/listStore';
 </script>
 
-{#if $ListStoreState === "UNFETCHED"}
+{#if $ListStoreState === 'UNFETCHED'}
     <p>Hämtar handlingslistor...</p>
-{:else if $ListStoreState === "FETCHED"}
+{:else if $ListStoreState === 'FETCHED'}
     {#each $ListStore as list (list._id)}
-        <ShoppingList {list} collapsed={true} />
+        <ShoppingList {list} />
     {/each}
 {:else}
     <p>Hoppsan, något har visst gått jättefel.</p>
